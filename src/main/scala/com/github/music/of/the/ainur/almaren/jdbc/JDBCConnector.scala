@@ -11,11 +11,12 @@ import scalikejdbc._
 import scala.util.{Failure, Success, Try}
 
 final case class JDBCResponse(
-  `__ERROR__`:Option[String] = None,
-  `__BATCH_SIZE__`:Int,
   `__URL__`:String,
   `__DRIVER__`:String,
-  `__ELAPSED_TIME__`:Long
+  `__QUERY__`:String,
+  `__BATCH_SIZE__`:Int,
+  `__ELAPSED_TIME__`:Long,
+  `__ERROR__`:Option[String] = None
 )
 
 private[almaren] case class MainJDBC(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
@@ -44,18 +45,21 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     DB localTx { implicit session =>
       Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
         case Success(data) => JDBCResponse(
-          `__BATCH_SIZE__` = batchSize,
           `__URL__` = url,
           `__DRIVER__` = driver,
+          `__QUERY__` = query,
+          `__BATCH_SIZE__` = batchSize,
           `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime)
         case Failure(error) => {
           logger.error("Almaren jdbcBatch error", error)
           JDBCResponse(
-            `__ERROR__` = Some(error.getMessage),
-            `__BATCH_SIZE__` = batchSize,
             `__URL__` = url,
             `__DRIVER__` = driver,
-            `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime)
+            `__QUERY__` = query,
+            `__BATCH_SIZE__` = batchSize,
+            `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime,
+            `__ERROR__` = Some(error.getMessage)
+          )
         }
       }
     }
