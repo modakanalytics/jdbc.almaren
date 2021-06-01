@@ -25,7 +25,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     df
   }
 
-  def jdbcBatch(df: DataFrame, url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {      
+  def jdbcBatch(df: DataFrame): DataFrame = {
     import df.sparkSession.implicits._
 
     val result = df.mapPartitions((partition: Iterator[Row]) => {
@@ -48,7 +48,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     result.toDF
   }
 
-  def jdbcQuery(df: DataFrame, url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {
+  def jdbcQuery(df: DataFrame): DataFrame = {
     df
   }
 }
