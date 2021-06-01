@@ -29,36 +29,36 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     import df.sparkSession.implicits._
 
     val result = df.mapPartitions((partition: Iterator[Row]) => {
-
       Class.forName(driver)
       ConnectionPool.singleton(url, user.getOrElse(""), password.getOrElse(""))
-
-      partition.grouped(batchSize).map(rows => {
-        val batchParams: Seq[Seq[Any]] = rows.map(row => {
-          (0 to row.size).map(index => row.get(index - 1)).toSeq
-        }).toSeq
-        val startTime = System.currentTimeMillis()
-        DB localTx { implicit session =>
-          Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
-            case Success(data) => JDBCResponse(
-              `__BATCH_SIZE__` = batchSize,
-              `__URL__` = url,
-              `__DRIVER__` = driver,
-              `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime)
-            case Failure(error) => {
-              logger.error("Almaren jdbcBatch error", error)
-              JDBCResponse(
-                `__ERROR__` = Some(error.getMessage),
-                `__BATCH_SIZE__` = batchSize,
-                `__URL__` = url,
-                `__DRIVER__` = driver,
-                `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime)
-            }
-          }
-        }
-      })
+      partition.grouped(batchSize).map(rows => batchQuery(rows))
     })
     result.toDF
+  }
+
+  private def batchQuery(rows:Seq[Row]): JDBCResponse = {
+    val batchParams: Seq[Seq[Any]] = rows.map(row => {
+      (0 to row.size).map(index => row.get(index - 1)).toSeq
+    }).toSeq
+    val startTime = System.currentTimeMillis()
+    DB localTx { implicit session =>
+      Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
+        case Success(data) => JDBCResponse(
+          `__BATCH_SIZE__` = batchSize,
+          `__URL__` = url,
+          `__DRIVER__` = driver,
+          `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime)
+        case Failure(error) => {
+          logger.error("Almaren jdbcBatch error", error)
+          JDBCResponse(
+            `__ERROR__` = Some(error.getMessage),
+            `__BATCH_SIZE__` = batchSize,
+            `__URL__` = url,
+            `__DRIVER__` = driver,
+            `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime)
+        }
+      }
+    }
   }
 
   def jdbcQuery(df: DataFrame): DataFrame = {
