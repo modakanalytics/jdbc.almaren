@@ -70,7 +70,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
               `__QUERY__` = query,
               `__BATCH_SIZE__` = batchSize,
               `__ELAPSED_TIME__` = System.currentTimeMillis() - startTime,
-              `__ERROR__` = Some(error.getMessage))
+              `__ERROR__` = Some(s"${error.getMessage}, ${error.getLocalizedMessage()}"))
           )
         }
       }
