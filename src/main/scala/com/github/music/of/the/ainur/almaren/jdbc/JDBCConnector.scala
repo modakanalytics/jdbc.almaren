@@ -35,7 +35,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
 
       partition.grouped(batchSize).map(rows => {
         val batchParams: Seq[Seq[Any]] = rows.map(row => {
-          (0 to row.size).map(index => row.get(index)).toSeq
+          (0 to row.size).map(index => row.get(index - 1)).toSeq
         }).toSeq
         val startTime = System.currentTimeMillis()
         DB localTx { implicit session =>
