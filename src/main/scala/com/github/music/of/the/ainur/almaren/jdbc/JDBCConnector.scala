@@ -21,7 +21,7 @@ final case class JDBCResponse(
 private[almaren] case class MainJDBC(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
   override def core(df: DataFrame): DataFrame = {
-    logger.info(s"url:{$url}, driver:{$driver}, query:{$query}, user:{$user}, params:{$params}")
+    logger.info(s"url:{$url}, driver:{$driver}, query:{$query}, batchSize:{$batchSize}, user:{$user}, params:{$params}")
     df
   }
 
@@ -40,7 +40,10 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
         DB localTx { implicit session =>
           Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
             case Success(data) => JDBCResponse(`__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
-            case Failure(error) => JDBCResponse(`__ERROR__` = Some(error.getMessage),  `__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
+            case Failure(error) => {
+              logger.error("Almaren jdbcBatch error", error)
+              JDBCResponse(`__ERROR__` = Some(error.getMessage),  `__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
+            }
           }
         }
       })
