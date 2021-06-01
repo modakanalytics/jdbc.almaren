@@ -39,10 +39,19 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
         }).toSeq
         DB localTx { implicit session =>
           Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
-            case Success(data) => JDBCResponse(`__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
+            case Success(data) => JDBCResponse(
+              `__BATCH_SIZE__` = batchSize,
+              `__URL__` = url,
+              `__DRIVER__` = driver,
+              `__ELAPSED_TIME__` = 100)
             case Failure(error) => {
               logger.error("Almaren jdbcBatch error", error)
-              JDBCResponse(`__ERROR__` = Some(error.getMessage),  `__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
+              JDBCResponse(
+                `__ERROR__` = Some(error.getMessage),
+                `__BATCH_SIZE__` = batchSize,
+                `__URL__` = url,
+                `__DRIVER__` = driver,
+                `__ELAPSED_TIME__` = 100)
             }
           }
         }
@@ -57,7 +66,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
 }
 
 private[almaren] trait JDBCConnector extends Core {
-  def jdbcBatch(url: String, driver: String, query: String, batchSize: Int, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
+  def jdbcBatch(url: String, driver: String, query: String, batchSize: Int = 1000, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
     MainJDBC(
       url,
       driver,
