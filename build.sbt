@@ -16,7 +16,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
   "com.github.music-of-the-ainur" %% "almaren-framework" % "0.9.0-2.4" % "provided",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
-  "org.scalikejdbc" % "scalikejdbc_2.11" % "3.4.0",
+  "org.scalikejdbc" %% "scalikejdbc" % "3.4.0",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 )
 

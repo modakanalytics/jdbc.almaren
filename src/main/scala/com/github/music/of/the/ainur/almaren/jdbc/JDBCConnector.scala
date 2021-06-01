@@ -6,6 +6,7 @@ import com.github.music.of.the.ainur.almaren.Tree
 import com.github.music.of.the.ainur.almaren.builder.Core
 import com.github.music.of.the.ainur.almaren.state.core.Main
 import org.apache.spark.sql.{DataFrame, Row}
+import scalikejdbc._
 
 import scala.util.{Failure, Success, Try}
 
@@ -16,9 +17,13 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     df
   }
 
-  def jdbcBatch(df: DataFrame, url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {
-    val fields = df.schema.fields
-    df
+  def jdbcBatch(df: DataFrame, url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {      
+    import df.sparkSession.implicits._
+
+    df.foreachPartition((partition: Iterator[Row]) => {
+      partition.map(f => "foo")
+    })
+
   }
 
   def jdbcQuery(df: DataFrame, url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {
