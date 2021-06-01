@@ -10,33 +10,56 @@ import scalikejdbc._
 
 import scala.util.{Failure, Success, Try}
 
-private[almaren] case class MainJDBC(url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
+final case class JDBCResponse(
+  `__ERROR__`:Option[String] = None,
+  `__BATCH_SIZE__`:Int,
+  `__URL__`:String,
+  `__DRIVER__`:String,
+  `__ELAPSED_TIME__`:Long
+)
+
+private[almaren] case class MainJDBC(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
   override def core(df: DataFrame): DataFrame = {
     logger.info(s"url:{$url}, driver:{$driver}, query:{$query}, user:{$user}, params:{$params}")
     df
   }
 
-  def jdbcBatch(df: DataFrame, url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {      
+  def jdbcBatch(df: DataFrame, url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {      
     import df.sparkSession.implicits._
 
-    df.foreachPartition((partition: Iterator[Row]) => {
-      partition.map(f => "foo")
-    })
+    val result = df.mapPartitions((partition: Iterator[Row]) => {
 
+      Class.forName(driver)
+      ConnectionPool.singleton(url, user.getOrElse(""), password.getOrElse(""))
+
+      partition.grouped(batchSize).map(rows => {
+        val batchParams: Seq[Seq[Any]] = rows.map(row => {
+          (0 to row.size).map(index => row.get(index)).toSeq
+        }).toSeq
+        DB localTx { implicit session =>
+          Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
+            case Success(data) => JDBCResponse(`__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
+            case Failure(error) => JDBCResponse(`__ERROR__` = Some(error.getMessage),  `__BATCH_SIZE__` = batchSize,  `__URL__` = url,  `__DRIVER__` = driver,  `__ELAPSED_TIME__` = 100)
+          }
+        }
+      })
+    })
+    result.toDF
   }
 
-  def jdbcQuery(df: DataFrame, url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {
+  def jdbcQuery(df: DataFrame, url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]): DataFrame = {
     df
   }
 }
 
 private[almaren] trait JDBCConnector extends Core {
-  def jdbcBatch(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
+  def jdbcBatch(url: String, driver: String, query: String, batchSize: Int, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
     MainJDBC(
       url,
       driver,
       query,
+      batchSize,
       user,
       password,
       params
