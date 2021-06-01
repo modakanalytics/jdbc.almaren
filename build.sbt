@@ -44,7 +44,7 @@ ThisBuild / developers := List(
 )
 
 ThisBuild / description := "JDBC Connector For Almaren Framework"
-ThisBuild / licenses := List("Apache 2" -> new URL("jdbc://www.apache.org/licenses/LICENSE-2.0.txt"))
+ThisBuild / licenses := List("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 ThisBuild / homepage := Some(url("https://github.com/modakanalytics/jdbc.almaren"))
 ThisBuild / organizationName := "Modak Analytics"
 ThisBuild / organizationHomepage := Some(url("https://github.com/modakanalytics"))
