@@ -22,6 +22,14 @@ final case class JDBCResponse(
 
 private[almaren] case class MainJDBC(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
+
+  val settings = ConnectionPoolSettings(
+    initialSize = 1,
+    maxSize = 1,
+    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Long]
+  )
+
+
   private object Alias {
     val IdCol = "__ID__"
   }
@@ -36,7 +44,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
 
     val result = df.mapPartitions((partition: Iterator[Row]) => {
       Class.forName(driver)
-      ConnectionPool.singleton(url, user.getOrElse(""), password.getOrElse(""))
+      ConnectionPool.singleton(url, user.getOrElse(""), password.getOrElse(""), settings)
       partition.grouped(batchSize).flatMap(rows => batchQuery(rows))
     })
     result.toDF
