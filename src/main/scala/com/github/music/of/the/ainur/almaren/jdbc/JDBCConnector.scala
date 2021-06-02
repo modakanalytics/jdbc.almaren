@@ -26,9 +26,8 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
   val settings = ConnectionPoolSettings(
     initialSize = 1,
     maxSize = 1,
-    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Long]
+    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Int]
   )
-
 
   private object Alias {
     val IdCol = "__ID__"
@@ -36,7 +35,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
 
   override def core(df: DataFrame): DataFrame = {
     logger.info(s"url:{$url}, driver:{$driver}, query:{$query}, batchSize:{$batchSize}, user:{$user}, params:{$params}")
-    df
+    jdbcBatch(df)
   }
 
   def jdbcBatch(df: DataFrame): DataFrame = {
