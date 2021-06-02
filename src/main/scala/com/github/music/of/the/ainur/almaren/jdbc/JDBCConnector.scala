@@ -60,7 +60,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
       Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams.tail: _*).apply() } match {
         case Success(data) =>  batchParams.map(row =>           
           JDBCResponse(
-            `__ID__` = row.head.asInstanceOf[String],
+            `__ID__` = row.head.toString(),
             `__URL__` = url,
             `__DRIVER__` = driver,
             `__QUERY__` = query,
@@ -71,7 +71,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
           logger.error("Almaren jdbcBatch error", error)
           batchParams.map(row =>           
             JDBCResponse(
-              `__ID__` = row.head.asInstanceOf[String],
+              `__ID__` = row.head.toString(),
               `__URL__` = url,
               `__DRIVER__` = driver,
               `__QUERY__` = query,
