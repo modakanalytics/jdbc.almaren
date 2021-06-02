@@ -53,11 +53,11 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     // The first column of the DataFrame should be __ID__ that's why we skip it with "index = 1" instead of "index = 0"
     // It's all the rows except the first column that must be __ID__
     val batchParams: Seq[Seq[Any]] = rows.map(row => {
-      (1 to (row.size - 1)).map(index => row.get(index)).toSeq
+      (0 to (row.size - 1)).map(index => row.get(index)).toSeq
     }).toSeq
     val startTime = System.currentTimeMillis()
     DB localTx { implicit session =>
-      Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams: _*).apply() } match {
+      Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams.tail: _*).apply() } match {
         case Success(data) =>  batchParams.map(row =>           
           JDBCResponse(
             `__ID__` = row.head.asInstanceOf[String],
