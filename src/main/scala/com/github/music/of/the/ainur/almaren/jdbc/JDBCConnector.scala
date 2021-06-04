@@ -57,7 +57,7 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
     }).toSeq
     val startTime = System.currentTimeMillis()
     DB localTx { implicit session =>
-      Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams.tail: _*).apply() } match {
+      Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams.map(_.tail): _*).apply() } match {
         case Success(data) =>  batchParams.map(row =>           
           JDBCResponse(
             `__ID__` = row.head.toString(),
