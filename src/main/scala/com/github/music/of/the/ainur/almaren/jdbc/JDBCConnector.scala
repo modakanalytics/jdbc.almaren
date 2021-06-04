@@ -50,13 +50,12 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
   }
 
   private def batchQuery(rows:Seq[Row]): Seq[JDBCResponse] = {
-    // The first column of the DataFrame should be __ID__ that's why we skip it with "index = 1" instead of "index = 0"
-    // It's all the rows except the first column that must be __ID__
     val batchParams: Seq[Seq[Any]] = rows.map(row => {
       (0 to (row.size - 1)).map(index => row.get(index)).toSeq
     }).toSeq
     val startTime = System.currentTimeMillis()
     DB localTx { implicit session =>
+      // The "tail" is to remove the first column __ID__ from the insert.
       Try { sql"${SQLSyntax.createUnsafely(query)}".batch(batchParams.map(_.tail): _*).apply() } match {
         case Success(data) =>  batchParams.map(row =>           
           JDBCResponse(
