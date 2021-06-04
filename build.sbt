@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(
   "com.github.music-of-the-ainur" %% "almaren-framework" % "0.9.0-2.4" % "provided",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
   "org.scalikejdbc" %% "scalikejdbc" % "3.4.0",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "org.postgresql" % "postgresql" % "42.2.8" % "test"
 )
 
 enablePlugins(GitVersioning)

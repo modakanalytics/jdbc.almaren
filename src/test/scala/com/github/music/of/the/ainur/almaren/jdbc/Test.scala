@@ -21,7 +21,26 @@ class Test extends FunSuite with BeforeAndAfter {
 
   import spark.implicits._
 
+  val df = Seq(
+    ("John", "Smith", "London"),
+    ("David", "Jones", "India"),
+    ("Michael", "Johnson", "Indonesia"),
+    ("Chris", "Lee", "Brazil"),
+    ("Mike", "Brown", "Russia")
+  ).toDF("first_name", "last_name", "country")
 
+
+
+  val insertQuery = "INSERT INTO public.person_info (first_name, last_name, country) VALUES(?,?,?)"
+
+  val result = almaren.builder
+    .sourceDataFrame(df)
+    .sql("select monotonically_increasing_id() as __ID__,* from __TABLE__")
+    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren","org.postgresql.Driver",insertQuery,1000,Some("postgres"),Some("postgres"))
+    .batch
+
+  result.printSchema
+  result.show(false)
   // test(bigQueryDf, df, "Read bigQuery Test")
   def test(df1: DataFrame, df2: DataFrame, name: String): Unit = {
     testCount(df1, df2, name)
