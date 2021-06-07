@@ -40,15 +40,15 @@ val almaren = Almaren("jdbc-almaren")
 ```
 ## Parameters
 
-| Parameter | Description                                                            | Type               |
-|-----------|------------------------------------------------------------------------|--------------------|
-| url       | The JDBC URL to connect to                                             | String             |
-| driver    | The class name of the JDBC driver to use to connect to this URL.       | String             |
-| query     | Query to be executed                                                   | String             |
-| batchSize | How many records a single thread will process                          | Int                |
-| user      | Database user                                                          | Option[String]     |
-| password  | Database password                                                      | Option[String]     |
-| params    | Other extra parameters  like connectionTimeout  etc ..can be specified | Map[String,String] |
+| Parameter | Description                                                                 | Type               |
+|-----------|-----------------------------------------------------------------------------|--------------------|
+| url       | The JDBC URL to connect to                                                  | String             |
+| driver    | The class name of the JDBC driver to use to connect to this URL.            | String             |
+| query     | Query to be executed                                                        | String             |
+| batchSize | Number of records that will be send to the database in a single transaction | Int                |
+| user      | Database user                                                               | Option[String]     |
+| password  | Database password                                                           | Option[String]     |
+| params    | Other extra parameters  like connectionTimeout  etc ..can be specified      | Map[String,String] |
 
 
 ## Special Columns
@@ -61,12 +61,12 @@ val almaren = Almaren("jdbc-almaren")
 
 ### Output:
 
-| Parameters           | Description                                                      |
-|----------------------|------------------------------------------------------------------|
-| \_\_ID\_\_           | Custom ID , This field will be useful to join data               |
-| \_\_URL\_\_          | The JDBC URL used to connect to                                  |
-| \_\_DRIVER\_\_       | The class name of the JDBC driver to used to connect to this URL |
-| \_\_QUERY\_\_        | Query executed                                                   |
-| \_\_BATCHSIZE\_\_    | How many records a single thread will process                    |
-| \_\_ELAPSED_TIME\_\_ | Query Execution time                                             |
-| \_\_ERROR\_\_        | Error message if query execution fails                           |
+| Parameters           | Description                                                                 |
+|----------------------|-----------------------------------------------------------------------------|
+| \_\_ID\_\_           | Custom ID , This field will be useful to join data                          |
+| \_\_URL\_\_          | The JDBC URL used to connect to                                             |
+| \_\_DRIVER\_\_       | The class name of the JDBC driver to used to connect to this URL            |
+| \_\_QUERY\_\_        | Query executed                                                              |
+| \_\_BATCHSIZE\_\_    | Number of records that will be send to the database in a single transaction |
+| \_\_ELAPSED_TIME\_\_ | Query Execution time                                                        |
+| \_\_ERROR\_\_        | Error message if query execution fails                                      |
