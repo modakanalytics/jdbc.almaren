@@ -38,9 +38,6 @@ val almaren = Almaren("jdbc-almaren")
     .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", insertQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
 ```
-
-```
-
 ## Parameters
 
 | Parameter      | Description                                                                                                             | Type                            |

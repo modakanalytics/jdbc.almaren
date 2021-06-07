@@ -58,7 +58,7 @@ class Test extends FunSuite with BeforeAndAfter {
   val df3 = almaren.builder
     .sourceDataFrame(updateSourceDf)
     .sql("select monotonically_increasing_id() as __ID__,first_name,last_name from __TABLE__")
-    .jdbcBatch("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", updateQuery, 1000, Some("postgres"), Some("postgres"))
+    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", updateQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
 
   //performing action for the query execution
