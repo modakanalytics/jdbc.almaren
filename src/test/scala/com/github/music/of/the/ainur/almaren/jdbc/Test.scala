@@ -70,7 +70,7 @@ class Test extends FunSuite with BeforeAndAfter {
 
   def getPostgresTable(query: String): DataFrame = {
     almaren.builder
-      .sourceJdbc("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"))
+      .sourceJdbc("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"))
       .batch
   }
 

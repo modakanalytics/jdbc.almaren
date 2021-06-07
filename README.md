@@ -46,8 +46,8 @@ val almaren = Almaren("jdbc-almaren")
 | driver         | The class name of the JDBC driver to use to connect to this URL.                                                        | String                          |
 | query          | Query to be executed                                                                                                    | String                          |     
 | batchSize      | How many records a single thread will process                                                                           | Int                             |
-| user           | Database user                                                                                                           | String                          | 
-| password       | Database password                                                                                                       | String                          |
+| user           | Database user                                                                                                           | Option[String]                          | 
+| password       | Database password                                                                                                       | Option[String]                          |
 | params         | Other extra parameters  like connectionTimeout  etc ..can be specified                                                  | Map[String,String]              |
 
 
