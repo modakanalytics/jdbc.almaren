@@ -4,6 +4,7 @@ jdk: openjdk8
 
 scala:
   - 2.11.12
+  - 2.12.10
 
 cache:
   directories:
