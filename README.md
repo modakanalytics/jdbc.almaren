@@ -55,9 +55,9 @@ val almaren = Almaren("jdbc-almaren")
 
 ### Input:
 
-| Parameters | Mandatory | Description                                                                        |
-|------------|-----------|------------------------------------------------------------------------------------|
-| \_\_ID\_\_ | Yes       | This field will be in response of jdbc.almaren component, it's useful to join data |
+| Parameters | Mandatory                       | Description                                                                        |
+|------------|---------------------------------|------------------------------------------------------------------------------------|
+| \_\_ID\_\_ | Yes(Should be the first column) | This field will be in response of jdbc.almaren component, it's useful to join data |
 
 ### Output:
 
