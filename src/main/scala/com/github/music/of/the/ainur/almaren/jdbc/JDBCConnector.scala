@@ -122,7 +122,7 @@ private[almaren] trait JDBCBatch extends Core {
 }
 
 private[almaren] trait JDBCConnector extends Core {
-  def jdbcBatch(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
+  def jdbcQuery(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
     MainJDBCConnector(
       url,
       driver,
