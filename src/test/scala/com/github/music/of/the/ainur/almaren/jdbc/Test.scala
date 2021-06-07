@@ -32,14 +32,13 @@ class Test extends FunSuite with BeforeAndAfter {
 
   val insertQuery = "INSERT INTO public.person_info (first_name, last_name, country) VALUES(?,?,?)"
 
-  val df2 = almaren.builder
+  almaren.builder
     .sourceDataFrame(insertSourceDf)
     .sql("select monotonically_increasing_id() as __ID__,* from __TABLE__")
     .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", insertQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
+    .count
 
-  //performing action for the query execution
-  df2.count
 
   val insertFinalDf = getPostgresTable("select * from person_info")
 
@@ -55,14 +54,13 @@ class Test extends FunSuite with BeforeAndAfter {
 
   val updateQuery = "UPDATE person_info set first_name = ? where last_name = ?"
 
-  val df3 = almaren.builder
+  almaren.builder
     .sourceDataFrame(updateSourceDf)
     .sql("select monotonically_increasing_id() as __ID__,first_name,last_name from __TABLE__")
     .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", updateQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
+    .count
 
-  //performing action for the query execution
-  df3.count
 
   val updateFinalDf = getPostgresTable("select first_name,last_name from person_info")
 
