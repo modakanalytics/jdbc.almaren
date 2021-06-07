@@ -20,12 +20,11 @@ final case class JDBCResponse(
   `__ERROR__`:Option[String] = None
 )
 
-private[almaren] case class MainJDBC(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
+private[almaren] case class MainJDBCBatch(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
-
-  val settings = ConnectionPoolSettings(
+  lazy val settings = ConnectionPoolSettings(
     initialSize = 1,
-    maxSize = 1,
+    maxSize =  params.getOrElse("maxSize",10).asInstanceOf[Int],
     connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Int]
   )
 
@@ -82,15 +81,36 @@ private[almaren] case class MainJDBC(url: String, driver: String, query: String,
       }
     }
   }
+}
 
-  def jdbcQuery(df: DataFrame): DataFrame = {
-    df
+private[almaren] case class MainJDBCConnector(url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
+
+  lazy val settings = ConnectionPoolSettings(
+    initialSize = 1,
+    maxSize =  params.getOrElse("maxSize",10).asInstanceOf[Int],
+    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Int]
+  )
+
+  Class.forName(driver)
+  ConnectionPool.singleton(url, user.getOrElse(""), password.getOrElse(""), settings)
+
+  override def core(df: DataFrame): DataFrame = {
+    logger.info(s"url:{$url}, driver:{$driver}, query:{$query}, user:{$user}, params:{$params}")
+    import df.sparkSession.implicits._
+
+    List(jdbcExecute(query)).toDF
+  }
+
+  def jdbcExecute(query:String): Int = {
+    DB autoCommit { implicit session =>
+      sql"$query".executeUpdate().apply()
+    }
   }
 }
 
-private[almaren] trait JDBCConnector extends Core {
+private[almaren] trait JDBCBatch extends Core {
   def jdbcBatch(url: String, driver: String, query: String, batchSize: Int = 1000, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
-    MainJDBC(
+    MainJDBCBatch(
       url,
       driver,
       query,
@@ -101,6 +121,19 @@ private[almaren] trait JDBCConnector extends Core {
     )
 }
 
+private[almaren] trait JDBCConnector extends Core {
+  def jdbcBatch(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
+    MainJDBCConnector(
+      url,
+      driver,
+      query,
+      user,
+      password,
+      params
+    )
+}
+
 object JDBC {
+  implicit class JDBCBatchImplicit(val container: Option[Tree]) extends JDBCBatch
   implicit class JDBCImplicit(val container: Option[Tree]) extends JDBCConnector
 }
