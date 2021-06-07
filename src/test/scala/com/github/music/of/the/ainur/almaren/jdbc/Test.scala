@@ -6,6 +6,7 @@ import org.apache.spark.sql.functions._
 import com.github.music.of.the.ainur.almaren.Almaren
 import com.github.music.of.the.ainur.almaren.builder.Core.Implicit
 import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCImplicit
+import scalikejdbc._
 
 class Test extends FunSuite with BeforeAndAfter {
   val almaren = Almaren("jdbc-almaren")
@@ -21,7 +22,7 @@ class Test extends FunSuite with BeforeAndAfter {
 
   import spark.implicits._
 
-  val df = Seq(
+  val insertSourceDf = Seq(
     ("John", "Smith", "London"),
     ("David", "Jones", "India"),
     ("Michael", "Johnson", "Indonesia"),
@@ -30,18 +31,64 @@ class Test extends FunSuite with BeforeAndAfter {
   ).toDF("first_name", "last_name", "country")
 
 
-
   val insertQuery = "INSERT INTO public.person_info (first_name, last_name, country) VALUES(?,?,?)"
 
-  val result = almaren.builder
-    .sourceDataFrame(df)
+  almaren.builder
+    .sourceDataFrame(insertSourceDf)
     .sql("select monotonically_increasing_id() as __ID__,* from __TABLE__")
-    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren","org.postgresql.Driver",insertQuery,1000,Some("postgres"),Some("postgres"))
+    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", insertQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
+    .count
 
-  result.printSchema
-  result.show(false)
-  // test(bigQueryDf, df, "Read bigQuery Test")
+
+  val insertFinalDf = getPostgresTable("select * from person_info")
+
+  test(insertSourceDf, insertFinalDf, "jdbc Batch insert test")
+
+  val updateSourceDf = Seq(
+    ("John", "Jones"),
+    ("David", "Smith"),
+    ("Michael", "Lee"),
+    ("Chris", "Johnson"),
+    ("Mike", "Brown")
+  ).toDF("first_name", "last_name")
+
+  val updateQuery = "UPDATE person_info set first_name = ? where last_name = ?"
+
+  almaren.builder
+    .sourceDataFrame(updateSourceDf)
+    .sql("select monotonically_increasing_id() as __ID__,first_name,last_name from __TABLE__")
+    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", updateQuery, 1000, Some("postgres"), Some("postgres"))
+    .batch
+    .count
+
+
+  val updateFinalDf = getPostgresTable("select first_name,last_name from person_info")
+
+  test(updateSourceDf, updateFinalDf, "jdbc Batch update test")
+
+  //truncating table - will be replaced by jdbcQuery in connector
+
+  val settings = ConnectionPoolSettings(
+    initialSize = 1,
+    maxSize = 1,
+    connectionTimeoutMillis = 3000)
+
+  Class.forName("org.postgresql.Driver")
+  ConnectionPool.singleton("jdbc:postgresql://localhost:5432/almaren", "postgres", "postgres", settings)
+  val statement = s"""TRUNCATE TABLE person_info"""
+  DB localTx { implicit session =>
+    sql"${SQLSyntax.createUnsafely(statement)}".update.apply()
+  }
+
+
+  def getPostgresTable(query: String): DataFrame = {
+    almaren.builder
+      .sourceJdbc("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"))
+      .batch
+  }
+
+
   def test(df1: DataFrame, df2: DataFrame, name: String): Unit = {
     testCount(df1, df2, name)
     testCompare(df1, df2, name)
