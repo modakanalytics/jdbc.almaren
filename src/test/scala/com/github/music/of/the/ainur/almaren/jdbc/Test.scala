@@ -21,7 +21,7 @@ class Test extends FunSuite with BeforeAndAfter {
 
   import spark.implicits._
 
-  val df = Seq(
+  val insertSourceDf = Seq(
     ("John", "Smith", "London"),
     ("David", "Jones", "India"),
     ("Michael", "Johnson", "Indonesia"),
@@ -30,18 +30,51 @@ class Test extends FunSuite with BeforeAndAfter {
   ).toDF("first_name", "last_name", "country")
 
 
-
   val insertQuery = "INSERT INTO public.person_info (first_name, last_name, country) VALUES(?,?,?)"
 
-  val result = almaren.builder
-    .sourceDataFrame(df)
+  val df2 = almaren.builder
+    .sourceDataFrame(insertSourceDf)
     .sql("select monotonically_increasing_id() as __ID__,* from __TABLE__")
-    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren","org.postgresql.Driver",insertQuery,1000,Some("postgres"),Some("postgres"))
+    .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", insertQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
 
-  result.printSchema
-  result.show(false)
-  // test(bigQueryDf, df, "Read bigQuery Test")
+  //performing action for the query execution
+  df2.count
+
+  val insertFinalDf = getPostgresTable("select * from person_info")
+
+  test(insertSourceDf, insertFinalDf, "jdbc Batch insert test")
+
+  val updateSourceDf = Seq(
+    ("John", "Jones"),
+    ("David", "Smith"),
+    ("Michael", "Lee"),
+    ("Chris", "Johnson"),
+    ("Mike", "Brown")
+  ).toDF("first_name", "last_name")
+
+  val updateQuery = "UPDATE person_info set first_name = ? where last_name = ?"
+
+  val df3 = almaren.builder
+    .sourceDataFrame(updateSourceDf)
+    .sql("select monotonically_increasing_id() as __ID__,first_name,last_name from __TABLE__")
+    .jdbcBatch("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", updateQuery, 1000, Some("postgres"), Some("postgres"))
+    .batch
+
+  //performing action for the query execution
+  df3.count
+
+  val updateFinalDf = getPostgresTable("select first_name,last_name from person_info")
+
+  test(updateSourceDf, updateFinalDf, "jdbc Batch update test")
+
+  def getPostgresTable(query: String): DataFrame = {
+    almaren.builder
+      .sourceJdbc("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"))
+      .batch
+  }
+
+
   def test(df1: DataFrame, df2: DataFrame, name: String): Unit = {
     testCount(df1, df2, name)
     testCompare(df1, df2, name)

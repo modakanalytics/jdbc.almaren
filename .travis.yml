@@ -20,6 +20,10 @@ before_cache:
 services:
   - postgresql
 
+before_script:
+  - psql -c "ALTER USER postgres PASSWORD 'postgres';"
+  - psql -c "create database almaren;"
+  - psql -U postgres -d almaren -f src/test/resources/tables.ddl
 
 script:
   - sbt +test
