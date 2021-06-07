@@ -20,7 +20,7 @@ final case class JDBCResponse(
   `__ERROR__`:Option[String] = None
 )
 
-private[almaren] case class MainJDBCBatch(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
+private[almaren] case class JDBCBatch(url: String, driver: String, query: String, batchSize: Int, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
   lazy val settings = ConnectionPoolSettings(
     initialSize = 1,
@@ -83,7 +83,7 @@ private[almaren] case class MainJDBCBatch(url: String, driver: String, query: St
   }
 }
 
-private[almaren] case class MainJDBCConnector(url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
+private[almaren] case class JDBC(url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
   lazy val settings = ConnectionPoolSettings(
     initialSize = 1,
@@ -108,9 +108,19 @@ private[almaren] case class MainJDBCConnector(url: String, driver: String, query
   }
 }
 
-private[almaren] trait JDBCBatch extends Core {
+private[almaren] trait JDBConnector extends Core {
+  def jdbcQuery(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
+    JDBC(
+      url,
+      driver,
+      query,
+      user,
+      password,
+      params
+    )
+
   def jdbcBatch(url: String, driver: String, query: String, batchSize: Int = 1000, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
-    MainJDBCBatch(
+    JDBCBatch(
       url,
       driver,
       query,
@@ -121,19 +131,6 @@ private[almaren] trait JDBCBatch extends Core {
     )
 }
 
-private[almaren] trait JDBCConnector extends Core {
-  def jdbcQuery(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
-    MainJDBCConnector(
-      url,
-      driver,
-      query,
-      user,
-      password,
-      params
-    )
-}
-
 object JDBC {
-  implicit class JDBCBatchImplicit(val container: Option[Tree]) extends JDBCBatch
-  implicit class JDBCImplicit(val container: Option[Tree]) extends JDBCConnector
+  implicit class JDBCImplicit(val container: Option[Tree]) extends JDBConnector
 }
