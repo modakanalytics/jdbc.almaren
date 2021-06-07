@@ -6,6 +6,7 @@ import org.apache.spark.sql.functions._
 import com.github.music.of.the.ainur.almaren.Almaren
 import com.github.music.of.the.ainur.almaren.builder.Core.Implicit
 import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCImplicit
+import scalikejdbc._
 
 class Test extends FunSuite with BeforeAndAfter {
   val almaren = Almaren("jdbc-almaren")
@@ -65,6 +66,21 @@ class Test extends FunSuite with BeforeAndAfter {
   val updateFinalDf = getPostgresTable("select first_name,last_name from person_info")
 
   test(updateSourceDf, updateFinalDf, "jdbc Batch update test")
+
+  //truncating table - will be replaced by jdbcQuery in connector
+
+  val settings = ConnectionPoolSettings(
+    initialSize = 1,
+    maxSize = 1,
+    connectionTimeoutMillis = 3000)
+
+  Class.forName("org.postgresql.Driver")
+  ConnectionPool.singleton("jdbc:postgresql://localhost:5432/almaren", "postgres", "postgres", settings)
+  val statement = s"""TRUNCATE TABLE person_info"""
+  DB localTx { implicit session =>
+    sql"${SQLSyntax.createUnsafely(statement)}".update.apply()
+  }
+
 
   def getPostgresTable(query: String): DataFrame = {
     almaren.builder
