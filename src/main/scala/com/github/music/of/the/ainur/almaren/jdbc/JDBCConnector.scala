@@ -83,7 +83,7 @@ private[almaren] case class JDBCBatch(url: String, driver: String, query: String
   }
 }
 
-private[almaren] case class JDBC(url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
+private[almaren] case class JDBCQuery(url: String, driver: String, query: String, user: Option[String], password: Option[String], params: Map[String, String]) extends Main {
 
   lazy val settings = ConnectionPoolSettings(
     initialSize = 1,
@@ -110,7 +110,7 @@ private[almaren] case class JDBC(url: String, driver: String, query: String, use
 
 private[almaren] trait JDBConnector extends Core {
   def jdbcQuery(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
-    JDBC(
+    JDBCQuery(
       url,
       driver,
       query,
