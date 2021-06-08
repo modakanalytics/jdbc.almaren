@@ -11,8 +11,9 @@ libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.
 ```
 spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.11:0.9.0-2.4,com.github.music-of-the-ainur:jdbc-almaren_2.11:0.0.1-2.4"
 ```
+## JDBC Batch
 
-## Example
+### Example
 
 ```scala
 import com.github.music.of.the.ainur.almaren.Almaren
@@ -38,7 +39,7 @@ val almaren = Almaren("jdbc-almaren")
     .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", insertQuery, 1000, Some("postgres"), Some("postgres"))
     .batch
 ```
-## Parameters
+### Parameters
 
 | Parameter | Description                                                                 | Type               |
 |-----------|-----------------------------------------------------------------------------|--------------------|
@@ -51,15 +52,15 @@ val almaren = Almaren("jdbc-almaren")
 | params    | Other extra parameters  like connectionTimeout  etc ..can be specified      | Map[String,String] |
 
 
-## Special Columns
+### Special Columns
 
-### Input:
+#### Input:
 
 | Parameters | Mandatory                       | Description                                                                        |
 |------------|---------------------------------|------------------------------------------------------------------------------------|
 | \_\_ID\_\_ | Yes(Should be the first column) | This field will be in response of jdbc.almaren component, it's useful to join data |
 
-### Output:
+##### Output:
 
 | Parameters           | Description                                                                 |
 |----------------------|-----------------------------------------------------------------------------|
