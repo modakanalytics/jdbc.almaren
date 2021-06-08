@@ -90,7 +90,7 @@ class Test extends FunSuite with BeforeAndAfter {
   def insertUpdateTable(sqlQuery: String, df: DataFrame): Long = {
     almaren.builder
       .sourceDataFrame(df)
-      .sql("select monotonically_increasing_id() as __ID__ ,* from __TABLE__")
+      .sqlExpr("monotonically_increasing_id() as __ID__","*")
       .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", sqlQuery, 1000, Some("postgres"), Some("postgres"),Map("connectionTimeoutMillis" -> "3000","maxSize"->"10"))
       .batch
       .count
