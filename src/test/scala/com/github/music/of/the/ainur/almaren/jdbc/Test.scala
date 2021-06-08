@@ -5,8 +5,8 @@ import org.scalatest._
 import org.apache.spark.sql.functions._
 import com.github.music.of.the.ainur.almaren.Almaren
 import com.github.music.of.the.ainur.almaren.builder.Core.Implicit
-import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCBatchImplicit
 import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCImplicit
+
 
 
 class Test extends FunSuite with BeforeAndAfter {

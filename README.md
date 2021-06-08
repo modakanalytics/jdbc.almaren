@@ -11,8 +11,9 @@ libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.
 ```
 spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.11:0.9.0-2.4,com.github.music-of-the-ainur:jdbc-almaren_2.11:0.0.1-2.4"
 ```
+## JDBC Batch
 
-## Example - jdbcBatch
+### Example
 
 ```scala
 import com.github.music.of.the.ainur.almaren.Almaren
@@ -58,11 +59,12 @@ import spark.implicits._
 
 #### Input:
 
-| Parameters | Mandatory | Description                                                                        |
-|------------|-----------|------------------------------------------------------------------------------------|
-| \_\_ID\_\_ | Yes       | This field will be in response of jdbc.almaren component, it's useful to join data |
+| Parameters | Mandatory                       | Description                                                                        |
+|------------|---------------------------------|------------------------------------------------------------------------------------|
+| \_\_ID\_\_ | Yes(Should be the first column) | This field will be in response of jdbc.almaren component, it's useful to join data |
 
 #### Output:
+
 
 | Parameters           | Description                                                                 |
 |----------------------|-----------------------------------------------------------------------------|
@@ -75,7 +77,9 @@ import spark.implicits._
 | \_\_ERROR\_\_        | Error message if query execution fails                                      |
 
 
-## Example - jdbcQuery 
+## JDBC Query 
+
+### Example 
 
 ```scala
 import com.github.music.of.the.ainur.almaren.Almaren
@@ -129,7 +133,7 @@ import spark.implicits._
 | password  | Database password                                                           | Option[String]     |
 | params    | Extra parameters  like connectionTimeout  etc ..can be specified            | Map[String,String] |
 
-## Params 
+### Params 
 
 | Parameter | Description                                                                 |
 |-----------|-----------------------------------------------------------------------------|
