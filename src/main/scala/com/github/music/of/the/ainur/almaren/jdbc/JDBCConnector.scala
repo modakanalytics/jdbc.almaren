@@ -24,8 +24,8 @@ private[almaren] case class MainJDBCBatch(url: String, driver: String, query: St
 
   lazy val settings = ConnectionPoolSettings(
     initialSize = 1,
-    maxSize =  params.getOrElse("maxSize",10).asInstanceOf[Int],
-    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Int]
+    maxSize =  params.getOrElse("maxSize",10).toString.toInt,
+    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).toString.toInt
   )
 
   private object Alias {
@@ -87,8 +87,8 @@ private[almaren] case class MainJDBCConnector(url: String, driver: String, query
 
   lazy val settings = ConnectionPoolSettings(
     initialSize = 1,
-    maxSize =  params.getOrElse("maxSize",10).asInstanceOf[Int],
-    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).asInstanceOf[Int]
+    maxSize =  params.getOrElse("maxSize",10).toString.toInt,
+    connectionTimeoutMillis = params.getOrElse("connectionTimeoutMillis",3000).toString.toInt
   )
 
   Class.forName(driver)
@@ -103,7 +103,7 @@ private[almaren] case class MainJDBCConnector(url: String, driver: String, query
 
   def jdbcExecute(query:String): Int = {
     DB autoCommit { implicit session =>
-      sql"$query".executeUpdate().apply()
+      sql"${SQLSyntax.createUnsafely(query)}".executeUpdate().apply()
     }
   }
 }
