@@ -108,7 +108,7 @@ private[almaren] case class JDBCQuery(url: String, driver: String, query: String
   }
 }
 
-private[almaren] trait JDBConnector extends Core {
+private[almaren] trait JDBCConnector extends Core {
   def jdbcQuery(url: String, driver: String, query: String, user: Option[String] = None, password: Option[String] = None, params: Map[String, String] = Map()): Option[Tree] =
     JDBCQuery(
       url,
@@ -132,5 +132,5 @@ private[almaren] trait JDBConnector extends Core {
 }
 
 object JDBC {
-  implicit class JDBCImplicit(val container: Option[Tree]) extends JDBConnector
+  implicit class JDBCImplicit(val container: Option[Tree]) extends JDBCConnector
 }
