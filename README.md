@@ -18,7 +18,7 @@ spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almare
 ```scala
 import com.github.music.of.the.ainur.almaren.Almaren
 import com.github.music.of.the.ainur.almaren.builder.Core.Implicit
-import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCBatchImplicit
+import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCImplicit
 
 import spark.implicits._
 
