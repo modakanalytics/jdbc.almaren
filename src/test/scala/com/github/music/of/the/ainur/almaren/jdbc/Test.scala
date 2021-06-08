@@ -91,20 +91,20 @@ class Test extends FunSuite with BeforeAndAfter {
     almaren.builder
       .sourceDataFrame(df)
       .sqlExpr("monotonically_increasing_id() as __ID__","*")
-      .jdbcBatch("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", sqlQuery, 1000, Some("postgres"), Some("postgres"),Map("connectionTimeoutMillis" -> "3000","maxSize"->"10"))
+      .jdbcBatch("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", sqlQuery, 1000, Some("postgres"), Some("postgres"),Map("connectionTimeoutMillis" -> "3000","maxSize"->"10"))
       .batch
       .count
   }
 
   def executeJdbcQuery(query: String): DataFrame = {
     almaren.builder
-      .jdbcQuery("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"),Map("connectionTimeoutMillis" -> "3000","maxSize"->"10"))
+      .jdbcQuery("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"),Map("connectionTimeoutMillis" -> "3000","maxSize"->"10"))
       .batch
   }
 
   def getPostgresTable(query: String): DataFrame = {
     almaren.builder
-      .sourceJdbc("jdbc:postgresql://localhost:5433/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"))
+      .sourceJdbc("jdbc:postgresql://localhost:5432/almaren", "org.postgresql.Driver", query, Some("postgres"), Some("postgres"))
       .batch
   }
 
