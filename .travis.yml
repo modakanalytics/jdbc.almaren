@@ -27,6 +27,3 @@ before_script:
 
 script:
   - sbt +test
-
-
-
