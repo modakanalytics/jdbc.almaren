@@ -1,11 +1,13 @@
 ThisBuild / name := "jdbc.almaren"
 ThisBuild / organization := "com.github.music-of-the-ainur"
 
-lazy val scala212 = "2.12.15"
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.10"
 
+crossScalaVersions := Seq(scala211,scala212)
 ThisBuild / scalaVersion := scala212
 
-val sparkVersion = "3.1.3"
+val sparkVersion = "2.4.5"
 val majorVersionReg = "([0-9]+\\.[0-9]+).{0,}".r
 val majorVersionReg(majorVersion) = sparkVersion
 
@@ -42,7 +44,7 @@ ThisBuild / developers := List(
     email = "badrinath.patchikolla@modak.com",
     url   = url("https://github.com/music-of-the-ainur")
   ),
- Developer(
+  Developer(
     id    = "praveenkumarb1207",
     name  = "Praveen Kumar",
     email = "praveen.bachu@modak.com",

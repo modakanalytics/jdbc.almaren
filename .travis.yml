@@ -3,7 +3,7 @@ language: scala
 jdk: openjdk8
 
 scala:
-  - 2.12.15
+  - 2.11.12
 
 cache:
   directories:
@@ -27,6 +27,3 @@ before_script:
 
 script:
   - sbt +test
-
-
-

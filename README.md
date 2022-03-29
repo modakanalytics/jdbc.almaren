@@ -5,7 +5,7 @@
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
 ```
-libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.3-3.1"
+libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.3-2.4"
 ```
 
 ```
