@@ -5,11 +5,11 @@
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
 ```
-libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.1-2.4"
+libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.3-2.4"
 ```
 
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.11:0.9.0-2.4,com.github.music-of-the-ainur:jdbc-almaren_2.11:0.0.1-2.4"
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.3-$SPARK_VERSION,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.3-$SPARK_VERSION"
 ```
 ## JDBC Batch
 
