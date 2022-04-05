@@ -1,4 +1,4 @@
-# metals
+.bsp/
 .metals/
 .bloop/
 project/metals.sbt
