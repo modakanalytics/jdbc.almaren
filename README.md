@@ -4,13 +4,22 @@
 
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
-```
-libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.4-$SPARK_VERSION"
-```
+To add JDBC connector dependency to your sbt build:
 
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.3-$SPARK_VERSION,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.4-$SPARK_VERSION"
+libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.5-3.3"
 ```
+To run in spark-shell:
+
+For scala-version(2.12.15):
+```
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.8-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.3"
+```
+For scala-version(2.13.9):
+```
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.8-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.5-3.3"
+```
+
 ## JDBC Batch
 
 ### Example
