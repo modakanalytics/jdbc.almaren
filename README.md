@@ -1,7 +1,6 @@
 # JDBC Connector
 
-[![Build Status](https://github.com/music-of-the-ainur/jdbc.almaren/actions/workflows/Jdbc.almaren-githubactions.yml/badge.svg)](https://github.com/music-of-the-ainur/jdbc.almaren/actions/workflows/Jdbc.almaren-githubactions.yml)
-
+[![Build Status](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc.almaren-githubactions.yml/badge.svg)](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc.almaren-githubactions.yml)
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
 To add JDBC connector dependency to your sbt build:
