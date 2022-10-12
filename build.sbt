@@ -16,10 +16,10 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
   "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
-  "com.github.music-of-the-ainur" %% "almaren-framework" % s"0.9.3-${majorVersion}" % "provided",
-  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
-  "org.scalikejdbc" %% "scalikejdbc" % "3.4.0",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+  "com.github.music-of-the-ainur" %% "almaren-framework" % s"0.9.8-${majorVersion}" % "provided",
+  "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
+  "org.scalikejdbc" %% "scalikejdbc" % "3.4.2",
+  "org.scalatest" %% "scalatest" % "3.2.14" % "test",
   "org.postgresql" % "postgresql" % "42.2.8" % "test"
 )
 

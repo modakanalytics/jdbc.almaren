@@ -6,10 +6,9 @@ import org.apache.spark.sql.functions._
 import com.github.music.of.the.ainur.almaren.Almaren
 import com.github.music.of.the.ainur.almaren.builder.Core.Implicit
 import com.github.music.of.the.ainur.almaren.jdbc.JDBC.JDBCImplicit
+import org.scalatest.funsuite.AnyFunSuite
 
-
-
-class Test extends FunSuite with BeforeAndAfter {
+class Test extends AnyFunSuite with BeforeAndAfter {
   val almaren = Almaren("jdbc-almaren")
 
   val spark: SparkSession = almaren.spark
