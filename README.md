@@ -1,6 +1,6 @@
 # JDBC Connector
 
-[![Build Status](https://travis-ci.com/modakanalytics/jdbc.almaren.svg?token=TEB3zRDqVUuChez9334q&branch=master)](https://travis-ci.com/modakanalytics/jdbc.almaren)
+[![Jdbc.Almaren](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc-almaren-githubactions.yml/badge.svg)](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc-almaren-githubactions.yml)
 
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
@@ -16,12 +16,7 @@ spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almare
 
 ### Connector Usage
 
-#### Connector to Spark Compatibility Matrix
-| Connector \ Spark                               | 2.4<br>(Scala 2.11) | 2.4<br>(Scala 2.12) | 3.1<br>(Scala 2.12)     | 3.2 <br>(Scala 2.12)    | 3.3 <br>(Scala 2.12)    | 3.3 <br>(Scala 2.13) |
-|-------------------------------------------------|---------------------|---------------------|---------|---------|---------|-----------|
-| com.github.music-of-the-ainur:jdbc-almaren_2.11 | &check;                     |                    |         | | | |
-| com.github.music-of-the-ainur:jdbc-almaren_2.12 |                     | &check;             | &check; | &check; | &check;         | |
-| com.github.music-of-the-ainur:jdbc-almaren_2.13 |             |                     |         |         |         | &check;| |
+
 
 #### Maven / Ivy Package Usage
 The connector is also available from the
@@ -29,15 +24,16 @@ The connector is also available from the
 repository. It can be used using the `--packages` option or the
 `spark.jars.packages` configuration property. Use the following value
 
+
+
 | version                    | Connector Artifact                                          |
 |----------------------------|-------------------------------------------------------------|
-| Spark 2.4.x and scala 2.11 | `com.github.music-of-the-ainur:jdbc-almaren_2.11:0.0.5-2.4` |
-| Spark 2.4.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-2.4` |
-| Spark 3.1.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.1` |
-| Spark 3.2.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.2` |
-| Spark 3.3.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.3` |
 | Spark 3.3.x and scala 2.13 | `com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.5-3.3` |
-
+| Spark 3.3.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.3` |
+| Spark 3.2.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.2` |
+| Spark 3.1.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.1` |
+| Spark 2.4.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-2.4` |
+| Spark 2.4.x and scala 2.11 | `com.github.music-of-the-ainur:jdbc-almaren_2.11:0.0.5-2.4` |
 
 ## JDBC Batch
 
