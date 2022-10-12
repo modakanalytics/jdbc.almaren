@@ -1,6 +1,6 @@
 # JDBC Connector
 
-[![Jdbc.Almaren](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc-almaren-githubactions.yml/badge.svg)](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc-almaren-githubactions.yml)
+[![Jdbc.Almaren](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc-almaren-githubactions.yml/badge.svg?branch=spark-3.2)](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc-almaren-githubactions.yml)
 
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
