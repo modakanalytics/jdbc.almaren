@@ -1,6 +1,7 @@
 # JDBC Connector
 
 [![Build Status](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc.almaren-githubactions.yml/badge.svg)](https://github.com/modakanalytics/jdbc.almaren/actions/workflows/Jdbc.almaren-githubactions.yml)
+
 JDBC Connector allow you to execute any SQL statement using Apache Spark.
 
 To add JDBC connector dependency to your sbt build:
@@ -10,11 +11,11 @@ libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.
 ```
 To run in spark-shell:
 
-For scala-version(2.12.15):
+For scala-version(2.12):
 ```
 spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.8-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.3"
 ```
-For scala-version(2.13.9):
+For scala-version(2.13):
 ```
 spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.8-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.5-3.3"
 ```
