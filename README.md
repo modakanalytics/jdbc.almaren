@@ -14,13 +14,8 @@ To run in spark-shell:
 spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.8-2.4,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-2.4"
 ```
 
-### Connector Usage
-
-#### Maven / Ivy Package Usage
-The connector is also available from the
-[Maven Central](https://mvnrepository.com/artifact/com.github.music-of-the-ainur)
-repository. It can be used using the `--packages` option or the
-`spark.jars.packages` configuration property. Use the following value
+JDBC Connector is available in [Maven Central](https://mvnrepository.com/artifact/com.github.music-of-the-ainur)
+repository.
 
 | version                    | Connector Artifact                                          |
 |----------------------------|-------------------------------------------------------------|
