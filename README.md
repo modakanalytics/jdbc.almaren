@@ -11,7 +11,7 @@ libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.
 
 To run in spark-shell:
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.8-3.1,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.1"
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.10-3.1,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.1"
 ```
 JDBC Connector is available in [Maven Central](https://mvnrepository.com/artifact/com.github.music-of-the-ainur) repository.
 
