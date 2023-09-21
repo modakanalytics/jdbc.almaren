@@ -8,6 +8,7 @@ To add JDBC connector dependency to your sbt build:
 
 ```
 libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.6-3.4"
+
 ```
 To run in spark-shell:
 
@@ -18,6 +19,7 @@ spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almare
 For scala-version(2.13):
 ```
 spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.10-3.4,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.4"
+
 ```
 
 ### Connector Usage
