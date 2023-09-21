@@ -6,7 +6,7 @@ JDBC Connector allows you to execute any SQL statement using Apache Spark.
 
 To add JDBC connector dependency to your sbt build:
 ```
-libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.5-3.1"
+libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.6-3.1"
 ```
 
 To run in spark-shell:
