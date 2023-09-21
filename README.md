@@ -18,6 +18,8 @@ JDBC Connector is available in [Maven Central](https://mvnrepository.com/artifac
 
 | versions                   | Connector Artifact                                          |
 |----------------------------|-------------------------------------------------------------|
+| Spark 3.4.x and scala 2.13 | `com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.4` |
+| Spark 3.4.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.4` |
 | Spark 3.3.x and scala 2.13 | `com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.3` |
 | Spark 3.3.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.3` |
 | Spark 3.2.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.2` |
