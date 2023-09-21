@@ -13,11 +13,11 @@ To run in spark-shell:
 
 For scala-version(2.12):
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.8-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.3"
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.10-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.5-3.3"
 ```
 For scala-version(2.13):
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.8-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.5-3.3"
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.10-3.3,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.5-3.3"
 ```
 
 ### Connector Usage
