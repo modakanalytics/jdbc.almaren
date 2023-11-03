@@ -20,7 +20,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.5",
   "org.scalikejdbc" %% "scalikejdbc" % "3.4.2",
   "org.scalatest" %% "scalatest" % "3.2.14" % "test",
-  "org.postgresql" % "postgresql" % "42.2.8" % "test"
+  "org.postgresql" % "postgresql" % "42.6.0" % "test"
 )
 
 enablePlugins(GitVersioning)
