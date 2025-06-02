@@ -7,18 +7,18 @@ JDBC Connector allow you to execute any SQL statement using Apache Spark.
 To add JDBC connector dependency to your sbt build:
 
 ```
-libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.6-3.4"
+libraryDependencies += "com.github.music-of-the-ainur" %% "jdbc-almaren" % "0.0.6-3.5"
 
 ```
 To run in spark-shell:
 
 For scala-version(2.12):
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.10-3.4,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.4"
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.12:0.9.11-3.5,com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.5"
 ```
 For scala-version(2.13):
 ```
-spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.10-3.4,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.4"
+spark-shell --master "local[*]" --packages "com.github.music-of-the-ainur:almaren-framework_2.13:0.9.11-3.5,com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.5"
 
 ```
 
@@ -32,6 +32,8 @@ repository. It can be used using the `--packages` option or the
 
 | version                    | Connector Artifact                                          |
 |----------------------------|-------------------------------------------------------------|
+| Spark 3.5.x and scala 2.13 | `com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.5` |
+| Spark 3.5.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.5` |                                                             |
 | Spark 3.4.x and scala 2.13 | `com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.4` |
 | Spark 3.4.x and scala 2.12 | `com.github.music-of-the-ainur:jdbc-almaren_2.12:0.0.6-3.4` |
 | Spark 3.3.x and scala 2.13 | `com.github.music-of-the-ainur:jdbc-almaren_2.13:0.0.6-3.3` |
